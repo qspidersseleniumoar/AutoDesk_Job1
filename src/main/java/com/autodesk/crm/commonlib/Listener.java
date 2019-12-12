@@ -41,6 +41,7 @@ public class Listener extends ExtentReportLib implements ITestListener {
 		extent.flush();
 		extent.close();
 	}
+	
 
 	public void onStart(ITestContext result) {
 	}
