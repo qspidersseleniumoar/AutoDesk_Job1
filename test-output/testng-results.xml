@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testng-results skipped="0" failed="0" ignored="0" total="1" passed="1">
+  <reporter-output>
+  </reporter-output>
+  <suite name="Default suite" duration-ms="24480" started-at="2019-12-12T16:13:38 IST" finished-at="2019-12-12T16:14:02 IST">
+    <groups>
+    </groups>
+    <test name="Default test" duration-ms="24480" started-at="2019-12-12T16:13:38 IST" finished-at="2019-12-12T16:14:02 IST">
+      <class name="com.autodesk.crm.campaigntest.LeadTest">
+        <test-method status="PASS" signature="configBeforeSuite()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configBeforeSuite" is-config="true" duration-ms="165" started-at="2019-12-12T16:13:38 IST" finished-at="2019-12-12T16:13:38 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configBeforeSuite -->
+        <test-method status="PASS" signature="configBeforeClass()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configBeforeClass" is-config="true" duration-ms="12679" started-at="2019-12-12T16:13:38 IST" finished-at="2019-12-12T16:13:50 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configBeforeClass -->
+        <test-method status="PASS" signature="configBeforeMethod()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configBeforeMethod" is-config="true" duration-ms="3804" started-at="2019-12-12T16:13:50 IST" finished-at="2019-12-12T16:13:54 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configBeforeMethod -->
+        <test-method status="PASS" signature="createLead()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="createLead" duration-ms="5497" started-at="2019-12-12T16:13:54 IST" finished-at="2019-12-12T16:14:00 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- createLead -->
+        <test-method status="PASS" signature="configAfterMethod()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configAfterMethod" is-config="true" duration-ms="1645" started-at="2019-12-12T16:14:00 IST" finished-at="2019-12-12T16:14:01 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configAfterMethod -->
+        <test-method status="PASS" signature="configafterClass()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configafterClass" is-config="true" duration-ms="805" started-at="2019-12-12T16:14:01 IST" finished-at="2019-12-12T16:14:02 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configafterClass -->
+        <test-method status="PASS" signature="configAfterSuite()[pri:0, instance:com.autodesk.crm.campaigntest.LeadTest@396f6598]" name="configAfterSuite" is-config="true" duration-ms="1" started-at="2019-12-12T16:14:03 IST" finished-at="2019-12-12T16:14:03 IST">
+          <reporter-output>
+          </reporter-output>
+        </test-method> <!-- configAfterSuite -->
+      </class> <!-- com.autodesk.crm.campaigntest.LeadTest -->
+    </test> <!-- Default test -->
+  </suite> <!-- Default suite -->
+</testng-results>
