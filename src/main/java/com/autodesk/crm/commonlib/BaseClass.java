@@ -24,7 +24,7 @@ import io.github.bonigarcia.wdm.WebDriverManager;
  * @author Deepak
  *
  */
-public class BaseClass  {
+public class BaseClass implements IAutoConstants, IFilePaths {
 	/* create an object for excel library */
 	public ExcelLib eLib = new ExcelLib();
 	
@@ -44,13 +44,10 @@ public class BaseClass  {
 	/**
 	 * Launch the selected browser
 	 * @throws Throwable
-	 * @throws InvalidFormatException
-	 * @throws org.apache.poi.openxml4j.exceptions.InvalidFormatException
-	 * @throws IOException
 	 */
 	@BeforeClass
-	public void configBeforeClass() throws Throwable, InvalidFormatException, InvalidFormatException, IOException {
-		/* get the url and type of browser properties from maven parameters */
+	public void configBeforeClass() throws Throwable {
+		/* Get the url and type of browser from runtime parameters */
 		String url = System.getProperty("url");
 		String browser = System.getProperty("browser");
 
@@ -62,7 +59,7 @@ public class BaseClass  {
 			driver = new ChromeDriver();
 		}
 		driver.manage().window().maximize();
-		driver.manage().timeouts().implicitlyWait(20, TimeUnit.SECONDS);
+		driver.manage().timeouts().implicitlyWait(ITO, TimeUnit.SECONDS);
 		driver.get(url);
 	}
 

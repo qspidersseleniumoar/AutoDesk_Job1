@@ -21,8 +21,10 @@ import com.relevantcodes.extentreports.LogStatus;
 public class Listener extends ExtentReportLib implements ITestListener {
 
 	public static String testCaseName;
-	
-	
+
+	/**
+	 * Take screenshot when the test fails
+	 */
 	public void onTestFailure(ITestResult result) {
 		logger.log(LogStatus.FAIL, "Failed "+result.getName());
 		EventFiringWebDriver edr = new EventFiringWebDriver(driver);
@@ -36,32 +38,48 @@ public class Listener extends ExtentReportLib implements ITestListener {
 
 	}
 
+	/**
+	 * Save the extent report
+	 */
 	public void onFinish(ITestContext result) {
 		extent.endTest(logger);
 		extent.flush();
 		extent.close();
 	}
-	
 
+	/**
+	 * 
+	 */
 	public void onStart(ITestContext result) {
 	}
 
+	/**
+	 * 
+	 */
 	public void onTestFailedButWithinSuccessPercentage(ITestResult result) {
 
 	}
 
+	/**
+	 * Log test case as skipped
+	 */
 	public void onTestSkipped(ITestResult result) {
 		logger.log(LogStatus.SKIP, "Skipped "+result.getName());
 	}
 
+	/**
+	 * Create extent test
+	 */
 	public void onTestStart(ITestResult result) {
 		logger = extent.startTest(result.getName());
 		logger.log(LogStatus.INFO, "Started "+result.getName());
 		testCaseName = result.getTestClass().getName().toString();
 		testCaseName = testCaseName.substring(testCaseName.lastIndexOf(".") + 1, testCaseName.length());
-
 	}
 
+	/**
+	 * Log test case as passed
+	 */
 	public void onTestSuccess(ITestResult result) {
 		logger.log(LogStatus.PASS, "Passed "+result.getName());
 	}

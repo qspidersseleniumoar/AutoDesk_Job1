@@ -4,7 +4,11 @@ import java.io.File;
 
 import com.relevantcodes.extentreports.ExtentReports;
 import com.relevantcodes.extentreports.ExtentTest;
-
+/**
+ * 
+ * @author Deepak
+ *
+ */
 public class ExtentReportLib extends BaseClass{
 	
 	public static ExtentReports extent;
@@ -12,14 +16,14 @@ public class ExtentReportLib extends BaseClass{
 	public static ExtentTest logger;
 	
 	/**
-	 * Allows to initialize the extent reports
+	 * Initializes the extent report
 	 */
 	public static void extentInit() {
 		/*intializes Extent HTML report*/
-		extent = new ExtentReports("./test-output/ExtentReport.html", true);
-		extent.addSystemInfo("Au8tomationLab", "SoftwareTestingMaterial").addSystemInfo("Environment", "Window")
-				.addSystemInfo("User Name", "Deepak");
+		extent = new ExtentReports(EXTENTREPORT, true);
+		extent.addSystemInfo("AutomationLab", "SoftwareTestingMaterial").addSystemInfo("Environment", "Windows")
+				.addSystemInfo("User Name", "Deepak").addSystemInfo("Build", "V 1.1");
 		/* load the extent config file */
-		extent.loadConfig(new File("./extent-config.xml"));
+		extent.loadConfig(new File(EXTENTCONFIG));
 	}
 }

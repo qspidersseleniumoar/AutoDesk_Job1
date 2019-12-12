@@ -19,7 +19,7 @@ public class LoginPage {
 	private WebDriver driver;
 
 	/**
-	 * Creates an object of Login page
+	 * Initiate the login page
 	 * @param driver
 	 */
 	public LoginPage(WebDriver driver) {

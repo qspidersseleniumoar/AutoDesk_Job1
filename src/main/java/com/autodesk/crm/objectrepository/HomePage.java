@@ -16,32 +16,35 @@ public class HomePage{
 	private WebDriver driver;
 	private Actions act;
 
-	@FindBy(xpath="//img[@src='themes/softed/images/Home.PNG']") private WebElement home;
-	@FindBy(linkText="Calendar") private WebElement Calendar;
-	@FindBy(linkText="Leads") private WebElement Leads;               	 		 		 	 		 		 		
-	@FindBy(linkText="Contacts") private WebElement Contacts;
-	@FindBy(linkText="Opportunities") private WebElement Opportunities;
-	@FindBy(linkText="Products") private WebElement Products;
-	@FindBy(linkText="Organizations") private WebElement Organizations;
-	@FindBy(linkText="Email") private WebElement Email;
-	@FindBy(linkText="Trouble Tickets") private WebElement Trouble_Tickets;
-	@FindBy(linkText="Dashboard") private WebElement Dashboard;
-	@FindBy(linkText="More") private WebElement More;
-	@FindBy(xpath="//img[@title='Chat...']") private WebElement chat;
-	@FindBy(linkText="Campaigns") private WebElement Campaigns;
-	@FindBy(linkText="Reports") private WebElement Reports;
-	@FindBy(linkText="SMSNotifier") private WebElement SMSNotifier;
-	@FindBy(linkText="Comments") private WebElement Comments;
-	@FindBy(linkText="Quotes") private WebElement Quotes;
-	@FindBy(xpath="//img[@src='themes/softed/images/user.PNG']") private WebElement admin;
-	@FindBy(linkText="Sign Out") private WebElement Sign_Out;
-	@FindBy(xpath="//img[@src='themes/softed/images/info.PNG']") private WebElement info_img;
-	@FindBy(linkText="My_Preferences") private WebElement My_Preferences;
-	@FindBy(linkText="Help") private WebElement Help;
-	@FindBy(linkText="CRM Settings") private WebElement CRM_Settings;
-	@FindBy(xpath="//img[@src='themes/softed/images/mainSettings.PNG']") private WebElement setting_img;
+	@FindBy(xpath="//img[@src='themes/softed/images/Home.PNG']") private WebElement homeLogo;
+	@FindBy(linkText="Calendar") private WebElement calendarTab;
+	@FindBy(linkText="Leads") private WebElement leadsTab;               	 		 		 	 		 		 		
+	@FindBy(linkText="Contacts") private WebElement contactsTab;
+	@FindBy(linkText="Opportunities") private WebElement oppportunitiesTab;
+	@FindBy(linkText="Products") private WebElement productsTab;
+	@FindBy(linkText="Organizations") private WebElement organizationsTab;
+	@FindBy(linkText="Email") private WebElement emailTab;
+	@FindBy(linkText="Trouble Tickets") private WebElement troubleTicketsTab;
+	@FindBy(linkText="Dashboard") private WebElement dashboardTab;
+	@FindBy(linkText="More") private WebElement moreTab;
+	@FindBy(xpath="//img[@title='Chat...']") private WebElement chatIcon;
+	@FindBy(linkText="Campaigns") private WebElement campaignsTab;
+	@FindBy(linkText="Reports") private WebElement reportsTab;
+	@FindBy(linkText="SMSNotifier") private WebElement smsNotifierTab;
+	@FindBy(linkText="Comments") private WebElement commentsTab;
+	@FindBy(linkText="Quotes") private WebElement quotesTab;
+	@FindBy(xpath="//img[@src='themes/softed/images/user.PNG']") private WebElement adminLogo;
+	@FindBy(linkText="Sign Out") private WebElement signoutLnk;
+	@FindBy(xpath="//img[@src='themes/softed/images/info.PNG']") private WebElement infoLnk;
+	@FindBy(linkText="My_Preferences") private WebElement myPreferencesTab;
+	@FindBy(linkText="Help") private WebElement helpTab;
+	@FindBy(linkText="CRM Settings") private WebElement crmSettingsTab;
+	@FindBy(xpath="//img[@src='themes/softed/images/mainSettings.PNG']") private WebElement settingsImg;
 
-	
+	/**
+	 * Initiate the home page
+	 * @param driver
+	 */
 	public HomePage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
@@ -52,129 +55,131 @@ public class HomePage{
 	 * Navigate to Home
 	 */
 	public void navigateTohome(){
-		home.click();
+		homeLogo.click();
 	}
 
 	/**
 	 * Navigate to Calendar
 	 */
 	public void navigateToCalendar(){  
-		Calendar.click();
+		calendarTab.click();
 	}
 
 	/**
 	 * Navigate to Leads
+	 * @return 
 	 */
-	public void navigateToLeads(){
-		Leads.click();
+	public LeadsPage navigateToLeads(){
+		leadsTab.click();
+		return new LeadsPage(driver);
 	}
 
 	/**
 	 * Navigate to Organizations
 	 */
 	public void navigateToOrganizations(){ 
-		Organizations.click();
+		organizationsTab.click();
 	}
 
 	/**
 	 * Navigate to Contacts
 	 */
 	public void navigateToContacts(){
-		Contacts.click();
+		contactsTab.click();
 	}
 
 	/**
 	 * Navigate to Opportunities
 	 */
 	public void navigateToOpportunities(){
-		Opportunities.click();
+		oppportunitiesTab.click();
 	}
 
 	/**
 	 * Navigate to Products
 	 */
 	public void navigateToProducts(){
-		Products.click();
+		productsTab.click();
 	}
 
 	/**
 	 * Navigate to Email
 	 */
 	public void navigateToEmail(){
-		Email.click();
+		emailTab.click();
 	}
 
 	/**
 	 * Navigate to Dashboard
 	 */
 	public void navigateToDashboard(){
-		Dashboard.click();
+		dashboardTab.click();
 	}
 
 	/**
 	 * Navigate to More
 	 */
 	public void navigateToMore(){
-		act.moveToElement(More).perform();;
+		act.moveToElement(moreTab).perform();;
 	}
 
 	/**
 	 * Navigate to Reports
 	 */
 	public void navigateToReports(){
-		Reports.click();
+		reportsTab.click();
 	}
 
 	/**
 	 * Navigate to SMSNotifier
 	 */
 	public void navigateToSMSNotifier(){
-		SMSNotifier.click();
+		smsNotifierTab.click();
 	}
 
 	/**
 	 * Navigate to Comments
 	 */
 	public void navigateToComments(){
-		Comments.click();
+		commentsTab.click();
 	}
 
 	/**
 	 * Navigate to Quotes
 	 */
 	public void navigateToQuotes(){
-		Quotes.click();
+		quotesTab.click();
 	}
 
 	/**
 	 * Signout of the application
 	 */
 	public void signOut(){
-		act.moveToElement(admin).perform(); 
-		Sign_Out.click();
+		act.moveToElement(adminLogo).perform(); 
+		signoutLnk.click();
 	}
 	
 	/**
 	 * Open preferences
 	 */
 	public void My_Preferences(){
-		act.moveToElement(admin).perform();
-		My_Preferences.click();
+		act.moveToElement(adminLogo).perform();
+		myPreferencesTab.click();
 	}
 
 	/**
 	 * Opens Help
 	 */
 	public void Help(){
-		act.moveToElement(info_img);
-		Help.click();
+		act.moveToElement(infoLnk);
+		helpTab.click();
 	}
 	
 	/**
 	 * Opens Settings
 	 */
 	public void CRM_Settings(){
-		act.moveToElement(setting_img);
-		CRM_Settings.click();
+		act.moveToElement(settingsImg);
+		crmSettingsTab.click();
 	}
 }

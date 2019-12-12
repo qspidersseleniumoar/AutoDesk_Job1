@@ -2,117 +2,105 @@ package com.autodesk.crm.commonlib;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
-import java.io.IOException;
 import java.util.Properties;
 
-import org.apache.poi.EncryptedDocumentException;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
 
-import com.sun.media.sound.InvalidFormatException;
-
 /**
  * 
  * @author deepak
  *
  */
-@SuppressWarnings("restriction")
 public class ExcelLib {
 
+	private static Workbook workbook;
+	private static Sheet sheet;
+	private static String path;
+	private static Properties prop;
+
 	/**
-	 * used to read data from Excel
-	 * 
+	 * Open and load a sheet from workbook
 	 * @param filePath
-	 * @param sheetNAme
-	 * @param rowNum
-	 * @param colNum
-	 * @return
-	 * @throws EncryptedDocumentException
+	 * @param sheetName
+	 * @return Sheet specified
+	 * @throws Throwable
 	 */
-	
-	public String getExcelData(String filePath, String sheetNAme, int rowNum, int colNum)
-			throws EncryptedDocumentException, InvalidFormatException, IOException,
-			org.apache.poi.openxml4j.exceptions.InvalidFormatException {
-		FileInputStream fis = new FileInputStream(filePath);
-		Workbook wb = WorkbookFactory.create(fis);
-		Sheet sh = wb.getSheet(sheetNAme);
-		Row row = sh.getRow(rowNum);
-		String data = row.getCell(colNum).getStringCellValue();
-		wb.close();
-		return data;
+	public static Sheet openSheet(String filePath, String sheetName) throws Throwable {
+		path = filePath;
+		workbook = WorkbookFactory.create(new FileInputStream(filePath));
+		sheet = workbook.getSheet(sheetName);
+		return sheet; 
 	}
 
 	/**
-	 * Write data back to Excel
-	 * 
-	 * @param sheetNAme
+	 * Get data from the cell
+	 * @param rowNum
+	 * @param colNum
+	 * @return String with cell data
+	 * @throws Throwable
+	 */
+	public static String getData(int rowNum, int colNum) throws Throwable {
+		Row row = sheet.getRow(rowNum);
+		String data = row.getCell(colNum).getStringCellValue();
+		return data;
+	}
+	
+	/**
+	 * Close the workbook
+	 * @throws Throwable
+	 */
+	public void closeSheet() throws Throwable {
+		workbook.close();
+	}
+
+	/**
+	 * Set a value in a cell
 	 * @param rowNum
 	 * @param colNum
 	 * @param data
-	 * @throws EncryptedDocumentException
-	 * @throws InvalidFormatException
-	 * @throws IOException
-	 * @throws org.apache.poi.openxml4j.exceptions.InvalidFormatException
-	 */
-	public void setExcelData(String filePath, String sheetNAme, int rowNum, int colNum, String data)
-			throws EncryptedDocumentException, InvalidFormatException, IOException,
-			org.apache.poi.openxml4j.exceptions.InvalidFormatException {
-		FileInputStream fis = new FileInputStream(filePath);
-		Workbook wb = WorkbookFactory.create(fis);
-		Sheet sh = wb.getSheet(sheetNAme);
-		Row row = sh.getRow(rowNum);
-		Cell cel = row.createCell(colNum);
-		cel.setCellValue(data);
-		FileOutputStream fos = new FileOutputStream(filePath);
-		wb.write(fos);
-		wb.close();
-
-	}
-
-	/**
-	 * get the TestData.Excel last used Row Count
-	 * 
-	 * @param sheetNAme
-	 * @return
-	 * @throws EncryptedDocumentException
-	 * @throws InvalidFormatException
-	 * @throws IOException
-	 * @throws                            org.apache.poi.openxml4j.exceptions.InvalidFormatException
-	 */
-	public int getRowCount(String filePath, String sheetNAme) throws EncryptedDocumentException, InvalidFormatException,
-			IOException, org.apache.poi.openxml4j.exceptions.InvalidFormatException {
-		FileInputStream fis = new FileInputStream(filePath);
-		Workbook wb = WorkbookFactory.create(fis);
-		Sheet sh = wb.getSheet(sheetNAme);
-		int rowIndex = sh.getLastRowNum();
-		return rowIndex;
-
-	}
-
-	/**
-	 * load property files
-	 * 
-	 * @return
 	 * @throws Throwable
 	 */
-	public Properties loadPropertyFile(String filePath) throws Throwable {
-		FileInputStream fis = new FileInputStream(filePath);
-		Properties pObj = new Properties();
-		pObj.load(fis);
-		return pObj;
+	public void setData(int rowNum, int colNum, String data) throws Throwable {
+		Row row = sheet.getRow(rowNum);
+		Cell cel = row.createCell(colNum);
+		cel.setCellValue(data);
+		workbook.write(new FileOutputStream(path));
 	}
 
 	/**
-	 * get the value for the specified key from the property file
-	 * 
-	 * @param pObj
-	 * @param key
-	 * @return
+	 * Get the number of rows in the sheet
+	 * @param filePath
+	 * @param sheetName
+	 * @return 
+	 * @throws Throwable
 	 */
-	public String getValueFromPropertyFile(Properties pObj, String key) {
-		return pObj.getProperty(key);
+	public int getRowCount(String filePath, String sheetName) throws Throwable {
+		openSheet(filePath, sheetName);
+		return sheet.getLastRowNum(); 
+	}
+
+	/**
+	 * Open and load properties file
+	 * @param filePath
+	 * @return Properties file loaded
+	 * @throws Throwable
+	 */
+	public Properties openProp(String filePath) throws Throwable {
+		prop = new Properties();
+		prop.load(new FileInputStream(filePath));
+		return prop;
+	}
+
+	/**
+	 * Get a property value
+	 * @param key
+	 * @return String with the key's value
+	 */
+	public String getValue(String key) {
+		return prop.getProperty(key);
 	}
 }
