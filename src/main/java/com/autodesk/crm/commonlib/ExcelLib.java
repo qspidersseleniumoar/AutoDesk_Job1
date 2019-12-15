@@ -6,6 +6,7 @@ import java.util.Properties;
 
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Row.MissingCellPolicy;
 import org.apache.poi.ss.usermodel.Sheet;
 import org.apache.poi.ss.usermodel.Workbook;
 import org.apache.poi.ss.usermodel.WorkbookFactory;
@@ -45,16 +46,10 @@ public class ExcelLib {
 	 */
 	public static String getData(int rowNum, int colNum) throws Throwable {
 		Row row = sheet.getRow(rowNum);
-		String data = row.getCell(colNum).getStringCellValue();
+		if(row==null)
+			row = sheet.createRow(rowNum);
+		String data = row.getCell(colNum, MissingCellPolicy.CREATE_NULL_AS_BLANK).getStringCellValue();
 		return data;
-	}
-	
-	/**
-	 * Close the workbook
-	 * @throws Throwable
-	 */
-	public void closeSheet() throws Throwable {
-		workbook.close();
 	}
 
 	/**
@@ -64,8 +59,10 @@ public class ExcelLib {
 	 * @param data
 	 * @throws Throwable
 	 */
-	public void setData(int rowNum, int colNum, String data) throws Throwable {
+	public static void setData(int rowNum, int colNum, String data) throws Throwable {
 		Row row = sheet.getRow(rowNum);
+		if(row==null)
+			row = sheet.createRow(rowNum);
 		Cell cel = row.createCell(colNum);
 		cel.setCellValue(data);
 		workbook.write(new FileOutputStream(path));
@@ -78,9 +75,17 @@ public class ExcelLib {
 	 * @return 
 	 * @throws Throwable
 	 */
-	public int getRowCount(String filePath, String sheetName) throws Throwable {
+	public static int getRowCount(String filePath, String sheetName) throws Throwable {
 		openSheet(filePath, sheetName);
 		return sheet.getLastRowNum(); 
+	}
+	
+	/**
+	 * Close the workbook
+	 * @throws Throwable
+	 */
+	public static void closeBook() throws Throwable {
+		workbook.close();
 	}
 
 	/**
@@ -89,7 +94,7 @@ public class ExcelLib {
 	 * @return Properties file loaded
 	 * @throws Throwable
 	 */
-	public Properties openProp(String filePath) throws Throwable {
+	public static Properties openProp(String filePath) throws Throwable {
 		prop = new Properties();
 		prop.load(new FileInputStream(filePath));
 		return prop;
@@ -100,7 +105,7 @@ public class ExcelLib {
 	 * @param key
 	 * @return String with the key's value
 	 */
-	public String getValue(String key) {
+	public static String getValue(String key) {
 		return prop.getProperty(key);
 	}
 }

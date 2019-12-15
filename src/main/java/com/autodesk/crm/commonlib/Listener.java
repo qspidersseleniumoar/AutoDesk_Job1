@@ -6,7 +6,6 @@ import java.util.Date;
 
 import org.apache.commons.io.FileUtils;
 import org.openqa.selenium.OutputType;
-import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.ITestContext;
 import org.testng.ITestListener;
 import org.testng.ITestResult;
@@ -27,7 +26,6 @@ public class Listener extends ExtentReportLib implements ITestListener {
 	 */
 	public void onTestFailure(ITestResult result) {
 		logger.log(LogStatus.FAIL, "Failed "+result.getName());
-		EventFiringWebDriver edr = new EventFiringWebDriver(driver);
 		File srcFile = edr.getScreenshotAs(OutputType.FILE);
 		String date = new Date().toString().replace(" ", "_").replace(":", "_");
 		File dfile = new File("./screenshot_"+date +"/"+ testCaseName + ".png");
@@ -35,7 +33,6 @@ public class Listener extends ExtentReportLib implements ITestListener {
 			FileUtils.copyFile(srcFile, dfile);
 		} catch (IOException e) {
 		}
-
 	}
 
 	/**

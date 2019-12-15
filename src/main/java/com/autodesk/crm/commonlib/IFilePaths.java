@@ -17,10 +17,11 @@ public interface IFilePaths {
 	String REPORTS = "./src/test/resources/reports/";
 	
 //	-------------------------Excel Files-------------------------
-	String ORG = EXCEL+"organizations.xlsx";
-	String CNT = EXCEL+"contacts.xlsx";
+	String ORG = EXCEL+"organization.xlsx";
+	String CNT = EXCEL+"contact.xlsx";
 	String OPP = EXCEL+"opportunity.xlsx";
 	String QTN = EXCEL+"quotation.xlsx";
+	String LDS = EXCEL+"lead.xlsx";
 	
 //	-------------------------Properties Files-------------------------
 //	String SMP = PROP+"sample.properties";

@@ -25,8 +25,14 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  */
 public class CommonLibrary extends BaseClass{
 
+	private WebDriver driver;
 	private JavascriptExecutor jse = (JavascriptExecutor)driver;
 	private String alertMessage;
+	
+
+	public CommonLibrary(WebDriver driver) {
+		this.driver=driver;
+	}
 
 	/**
 	 * Execute the javascript
@@ -145,6 +151,7 @@ public class CommonLibrary extends BaseClass{
 	 * @return String displayed in alert message
 	 */
 	public String acceptAlert() {
+		new WebDriverWait(driver, ETO).until(ExpectedConditions.alertIsPresent());
 		Alert alt = driver.switchTo().alert();
 		alertMessage = alt.getText();
 		alt.accept();
@@ -156,6 +163,7 @@ public class CommonLibrary extends BaseClass{
 	 * @return String displayed in alert message
 	 */
 	public String dismissAlert() {
+		new WebDriverWait(driver, ETO).until(ExpectedConditions.alertIsPresent());
 		Alert alt = driver.switchTo().alert();
 		alertMessage = alt.getText();
 		alt.dismiss();

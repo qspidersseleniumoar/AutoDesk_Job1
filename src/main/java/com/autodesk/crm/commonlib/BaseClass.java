@@ -1,23 +1,19 @@
 package com.autodesk.crm.commonlib;
 
-import java.io.IOException;
 import java.util.concurrent.TimeUnit;
 
-import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
-import org.testng.annotations.AfterClass;
+import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
-import org.testng.annotations.BeforeClass;
-import org.testng.annotations.BeforeMethod;
+import org.testng.annotations.AfterTest;
 import org.testng.annotations.BeforeSuite;
+import org.testng.annotations.BeforeTest;
 
-import com.autodesk.crm.objectrepository.HomePage;
-import com.autodesk.crm.objectrepository.LoginPage;
-
-import io.github.bonigarcia.wdm.WebDriverManager;
+import com.autodesk.crm.objectrepository.common.HomePage;
+import com.autodesk.crm.objectrepository.common.LoginPage;
 
 /**
  * 
@@ -31,13 +27,16 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	public WebDriver driver;
 	public LoginPage loginPage;
 	public HomePage homePage;
+	public EventFiringWebDriver edr;
+	public CommonLibrary commLib;
 
 	
 	/**
 	 * Initializing reports
+	 * @throws Throwable 
 	 */
 	@BeforeSuite
-	public void configBeforeSuite() {
+	public void configBeforeSuite() throws Throwable {
 		ExtentReportLib.extentInit();
 	}
 
@@ -45,22 +44,24 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 * Launch the selected browser
 	 * @throws Throwable
 	 */
-	@BeforeClass
-	public void configBeforeClass() throws Throwable {
+	@BeforeTest
+	public void configBeforeTest() throws Throwable {
 		/* Get the url and type of browser from runtime parameters */
 		String url = System.getProperty("url");
 		String browser = System.getProperty("browser");
 
 		if (browser.equals("firefox")) {
-			WebDriverManager.firefoxdriver().setup();
+//			WebDriverManager.firefoxdriver().setup();
 			driver = new FirefoxDriver();
 		} else if (browser.equals("chrome")) {
-			WebDriverManager.chromedriver().setup();
+//			WebDriverManager.chromedriver().setup();
 			driver = new ChromeDriver();
 		}
 		driver.manage().window().maximize();
 		driver.manage().timeouts().implicitlyWait(ITO, TimeUnit.SECONDS);
 		driver.get(url);
+		edr = new EventFiringWebDriver(driver);
+		loginToApp();
 	}
 
 	/**
@@ -68,8 +69,7 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 * 
 	 * @throws Throwable
 	 */
-	@BeforeMethod
-	public void configBeforeMethod() throws Throwable {
+	public void loginToApp() throws Throwable {
 		loginPage = new LoginPage(driver);
 
 		/* get username and password from runtime parameters */
@@ -79,28 +79,29 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		homePage = loginPage.login(username, password);
 	}
 
+	@AfterMethod
+	public void delay() throws Throwable {
+		Thread.sleep(TTO);
+	}
 	/**
 	 * Logout of the application
-	 */
-	@AfterMethod
-	public void configAfterMethod() {
-		homePage.signOut();
-	}
-
-	/**
 	 * Close the browser
 	 */
-	@AfterClass
-	public void configafterClass() {
+	@AfterTest
+	public void configAfterTest() {
+		homePage.signOut();
 		driver.quit();
 	}
 
 	/**
 	 * Appends the report HTML file with all the test results and 
 	 * closes the underlying stream
+	 * Kills driver executable instances
+	 * @throws Throwable 
 	 */
 	@AfterSuite
-	public void configAfterSuite() {
-		
+	public void configAfterSuite() throws Throwable {
+		Runtime.getRuntime().exec("taskkill -im chromedriver.exe /f");
+		Runtime.getRuntime().exec("taskkill -im geckodriver.exe /f");
 	}
 }
