@@ -89,6 +89,8 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 */
 	@AfterTest
 	public void configAfterTest() {
+		homePage.signOut();
+		driver.quit();
 	}
 
 	/**
@@ -99,8 +101,6 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 */
 	@AfterSuite
 	public void configAfterSuite() throws Throwable {
-		homePage.signOut();
-		driver.quit();
 		Runtime.getRuntime().exec("taskkill -im chromedriver.exe /f");
 		Runtime.getRuntime().exec("taskkill -im geckodriver.exe /f");
 	}
