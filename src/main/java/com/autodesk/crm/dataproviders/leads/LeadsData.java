@@ -19,9 +19,9 @@ public class LeadsData implements IFilePaths{
 	public Object[][] create20Leads() throws Throwable {
 		obj = new Object[20][3];
 		openSheet(LDS, "Create");
-		for(int i=1;i<=20;i++) {
+		for(int i=2;i<=21;i++) {
 			for(int j=0;j<3;j++) {
-			obj[i-1][j] = getData(i-1, j);
+			obj[i-2][j] = getData(i, j);
 			}
 		}
 		closeBook();

@@ -23,15 +23,16 @@ import org.openqa.selenium.support.ui.WebDriverWait;
  * @author Deepak
  *
  */
-public class CommonLibrary extends BaseClass{
+public class CommonLibrary implements IFilePaths, IAutoConstants{
 
 	private WebDriver driver;
-	private JavascriptExecutor jse = (JavascriptExecutor)driver;
+	private JavascriptExecutor jse;
 	private String alertMessage;
-	
+	private FluentWait<WebDriver> fwait;
 
 	public CommonLibrary(WebDriver driver) {
 		this.driver=driver;
+		this.jse = (JavascriptExecutor)driver;
 	}
 
 	/**
@@ -46,7 +47,7 @@ public class CommonLibrary extends BaseClass{
 	 * used to wait for page to load before element available in DOM
 	 */
 	public void waitForPageToLoad(){
-		FluentWait<WebDriver> fwait = new FluentWait<WebDriver>(driver)
+		fwait = new FluentWait<WebDriver>(driver)
 				.pollingEvery(Duration.ofMillis(FPP))
 				.withTimeout(Duration.ofSeconds(FTO))
 				.ignoring(NoSuchElementException.class);

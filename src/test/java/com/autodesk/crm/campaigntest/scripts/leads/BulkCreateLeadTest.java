@@ -27,5 +27,4 @@ public class BulkCreateLeadTest extends BaseClass{
 		/*Click the plus button to create lead and enter valid data and save and repeat the process multiple times*/
 		leadsPage.createBulkUsingPlus(firstname, lastname, company);
 	}
-
 }

@@ -9,6 +9,7 @@ import org.openqa.selenium.support.events.EventFiringWebDriver;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
+import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
 
@@ -22,14 +23,10 @@ import com.autodesk.crm.objectrepository.common.LoginPage;
  */
 public class BaseClass implements IAutoConstants, IFilePaths {
 	/* create an object for excel library */
-	public ExcelLib eLib = new ExcelLib();
-	
 	public WebDriver driver;
-	public LoginPage loginPage;
-	public HomePage homePage;
+	public static LoginPage loginPage;
+	public static HomePage homePage;
 	public EventFiringWebDriver edr;
-	public CommonLibrary commLib;
-
 	
 	/**
 	 * Initializing reports
@@ -64,6 +61,9 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		loginToApp();
 	}
 
+	@BeforeMethod
+	public void WDLConfig() {
+	}
 	/**
 	 * Login to the application
 	 * 
@@ -89,8 +89,6 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 */
 	@AfterTest
 	public void configAfterTest() {
-		homePage.signOut();
-		driver.quit();
 	}
 
 	/**
@@ -101,6 +99,8 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	 */
 	@AfterSuite
 	public void configAfterSuite() throws Throwable {
+		homePage.signOut();
+		driver.quit();
 		Runtime.getRuntime().exec("taskkill -im chromedriver.exe /f");
 		Runtime.getRuntime().exec("taskkill -im geckodriver.exe /f");
 	}

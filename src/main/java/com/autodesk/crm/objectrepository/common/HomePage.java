@@ -6,6 +6,7 @@ import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
+import com.autodesk.crm.commonlib.CommonLibrary;
 import com.autodesk.crm.objectrepository.leads.LeadsPage;
 
 /**
@@ -17,6 +18,7 @@ public class HomePage{
 	
 	private WebDriver driver;
 	private Actions act;
+	private CommonLibrary common;
 
 	@FindBy(xpath="//img[@src='themes/softed/images/Home.PNG']") private WebElement homeLogo;
 	@FindBy(linkText="Calendar") private WebElement calendarTab;
@@ -51,6 +53,7 @@ public class HomePage{
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
 		act = new Actions(driver);
+		common = new CommonLibrary(driver);
 	}
 
 	/**
@@ -73,6 +76,7 @@ public class HomePage{
 	 */
 	public LeadsPage navigateToLeads(){
 		leadsTab.click();
+		common.waitForPageToLoad();
 		return new LeadsPage(driver);
 	}
 

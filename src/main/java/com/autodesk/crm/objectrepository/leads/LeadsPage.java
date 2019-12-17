@@ -11,15 +11,17 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.autodesk.crm.commonlib.CommonLibrary;
+import com.autodesk.crm.commonlib.IFilePaths;
 
 /**
  * 
  * @author Ramya
  *
  */
-public class LeadsPage extends CommonLibrary{
+public class LeadsPage implements IFilePaths{
 	
-//	private WebDriver driver;
+	private WebDriver driver;
+	private CommonLibrary common;
 	
 	@FindBy(xpath="//img[contains(@src,'btnL3Add.gif')]") private WebElement plusBtn;
 	@FindBy(xpath="//input[contains(@title,'Cancel')]") private WebElement cancelBtn;
@@ -40,9 +42,9 @@ public class LeadsPage extends CommonLibrary{
 	 * @param driver
 	 */
 	public LeadsPage(WebDriver driver) {
-		super(driver);
 		PageFactory.initElements(driver, this);
-//		this.driver = driver;
+		this.driver = driver;
+		common = new CommonLibrary(driver);
 	}
 	
 	/**
@@ -66,6 +68,7 @@ public class LeadsPage extends CommonLibrary{
 	 */
 	public void createBulkUsingPlus(String firstname, String lastname, String company) throws Throwable {
 		plusBtn.click();
+		common.waitForPageToLoad();
 		firstnameTxtB.sendKeys(firstname);
 		lastnameTxtB.sendKeys(lastname);
 		companyTxtB.sendKeys(company);
@@ -78,7 +81,7 @@ public class LeadsPage extends CommonLibrary{
 	public void feedInfo() throws Throwable {
 		tableRow.click();
 //		waitForPageToLoad();
-		openSheet(LDS, "Create");
+		openSheet(LDS, "Export");
 		setData(2, 0, firstName.getText());
 		setData(2, 1, lastName.getText());
 		setData(2, 2, companyName.getText());
@@ -91,6 +94,6 @@ public class LeadsPage extends CommonLibrary{
 	public void deleteMultiple() {
 		selectAllChkbx.click();
 		deleteBtn.click();
-		acceptAlert();
+		common.acceptAlert();
 	}
 }
