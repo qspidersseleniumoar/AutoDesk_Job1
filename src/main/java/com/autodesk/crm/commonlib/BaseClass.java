@@ -6,12 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.events.EventFiringWebDriver;
-import org.testng.annotations.AfterMethod;
 import org.testng.annotations.AfterSuite;
 import org.testng.annotations.AfterTest;
-import org.testng.annotations.BeforeMethod;
 import org.testng.annotations.BeforeSuite;
 import org.testng.annotations.BeforeTest;
+import org.testng.annotations.Listeners;
 
 import com.autodesk.crm.objectrepository.common.HomePage;
 import com.autodesk.crm.objectrepository.common.LoginPage;
@@ -21,6 +20,7 @@ import com.autodesk.crm.objectrepository.common.LoginPage;
  * @author Deepak
  *
  */
+@Listeners(com.autodesk.crm.commonlib.Listener.class)
 public class BaseClass implements IAutoConstants, IFilePaths {
 	/* create an object for excel library */
 	public WebDriver driver;
@@ -61,9 +61,6 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		loginToApp();
 	}
 
-	@BeforeMethod
-	public void WDLConfig() {
-	}
 	/**
 	 * Login to the application
 	 * 
@@ -79,10 +76,6 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		homePage = loginPage.login(username, password);
 	}
 
-	@AfterMethod
-	public void delay() throws Throwable {
-		Thread.sleep(TTO);
-	}
 	/**
 	 * Logout of the application
 	 * Close the browser
@@ -94,6 +87,7 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	}
 
 	/**
+	 * 
 	 * Appends the report HTML file with all the test results and 
 	 * closes the underlying stream
 	 * Kills driver executable instances
