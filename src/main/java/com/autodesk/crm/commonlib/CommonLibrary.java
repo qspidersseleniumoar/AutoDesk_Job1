@@ -214,7 +214,6 @@ public class CommonLibrary implements IFilePaths, IAutoConstants{
 	 * Switch back to new parent Window
 	 */
 	public void switchToParentWindow() {
-		switchWindow();
 		driver.switchTo().window(parentId);
 	}
 
