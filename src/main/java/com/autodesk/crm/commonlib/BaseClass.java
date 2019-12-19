@@ -27,10 +27,11 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 	public static LoginPage loginPage;
 	public static HomePage homePage;
 	public EventFiringWebDriver edr;
-	
+
 	/**
 	 * Initializing reports
-	 * @throws Throwable 
+	 * 
+	 * @throws Throwable
 	 */
 	@BeforeSuite
 	public void configBeforeSuite() throws Throwable {
@@ -39,6 +40,7 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 
 	/**
 	 * Launch the selected browser
+	 * 
 	 * @throws Throwable
 	 */
 	@BeforeTest
@@ -58,6 +60,7 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		driver.manage().timeouts().implicitlyWait(ITO, TimeUnit.SECONDS);
 		driver.get(url);
 		edr = new EventFiringWebDriver(driver);
+
 		loginToApp();
 	}
 
@@ -72,13 +75,12 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 		/* get username and password from runtime parameters */
 		String username = System.getProperty("username");
 		String password = System.getProperty("password");
-		
+
 		homePage = loginPage.login(username, password);
 	}
 
 	/**
-	 * Logout of the application
-	 * Close the browser
+	 * Logout of the application Close the browser
 	 */
 	@AfterTest
 	public void configAfterTest() {
@@ -88,10 +90,10 @@ public class BaseClass implements IAutoConstants, IFilePaths {
 
 	/**
 	 * 
-	 * Appends the report HTML file with all the test results and 
-	 * closes the underlying stream
-	 * Kills driver executable instances
-	 * @throws Throwable 
+	 * Appends the report HTML file with all the test results and closes the
+	 * underlying stream Kills driver executable instances
+	 * 
+	 * @throws Throwable
 	 */
 	@AfterSuite
 	public void configAfterSuite() throws Throwable {

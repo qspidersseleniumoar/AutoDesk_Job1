@@ -7,7 +7,6 @@ import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
 
 import com.autodesk.crm.commonlib.CommonLibrary;
-import com.autodesk.crm.objectrepository.contacts.ContactsPage;
 import com.autodesk.crm.objectrepository.leads.LeadsPage;
 
 /**
@@ -90,12 +89,9 @@ public class HomePage{
 
 	/**
 	 * Navigate to Contacts
-	 * @return 
 	 */
-	public ContactsPage navigateToContacts(){
+	public void navigateToContacts(){
 		contactsTab.click();
-		common.waitForPageToLoad();
-		return new ContactsPage(driver);
 	}
 
 	/**

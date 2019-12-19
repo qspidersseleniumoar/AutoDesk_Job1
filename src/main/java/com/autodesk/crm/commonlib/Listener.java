@@ -25,14 +25,18 @@ public class Listener extends ExtentReportLib implements ITestListener {
 	 * Take screenshot when the test fails
 	 */
 	public void onTestFailure(ITestResult result) {
-		logger.log(LogStatus.FAIL, "Failed "+result.getName());
+
+		logger.log(LogStatus.FAIL, "Failed " + result.getName());
+
 		File srcFile = edr.getScreenshotAs(OutputType.FILE);
+
 		String date = new Date().toString().replace(" ", "_").replace(":", "_");
-		File dfile = new File("./screenshot_"+date +"/"+ testCaseName + ".png");
+		File dfile = new File("./screenshot_" + date + "/" + testCaseName + ".png");
 		try {
 			FileUtils.copyFile(srcFile, dfile);
 		} catch (IOException e) {
 		}
+
 	}
 
 	/**
@@ -61,7 +65,7 @@ public class Listener extends ExtentReportLib implements ITestListener {
 	 * Log test case as skipped
 	 */
 	public void onTestSkipped(ITestResult result) {
-		logger.log(LogStatus.SKIP, "Skipped "+result.getName());
+		logger.log(LogStatus.SKIP, "Skipped " + result.getName());
 	}
 
 	/**
@@ -69,7 +73,7 @@ public class Listener extends ExtentReportLib implements ITestListener {
 	 */
 	public void onTestStart(ITestResult result) {
 		logger = extent.startTest(result.getName());
-		logger.log(LogStatus.INFO, "Started "+result.getName());
+		logger.log(LogStatus.INFO, "Started " + result.getName());
 		testCaseName = result.getTestClass().getName().toString();
 		testCaseName = testCaseName.substring(testCaseName.lastIndexOf(".") + 1, testCaseName.length());
 	}
@@ -78,7 +82,7 @@ public class Listener extends ExtentReportLib implements ITestListener {
 	 * Log test case as passed
 	 */
 	public void onTestSuccess(ITestResult result) {
-		logger.log(LogStatus.PASS, "Passed "+result.getName());
+		logger.log(LogStatus.PASS, "Passed " + result.getName());
 	}
 
 }
