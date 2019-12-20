@@ -8,6 +8,7 @@ import org.openqa.selenium.support.PageFactory;
 
 import com.autodesk.crm.commonlib.CommonLibrary;
 import com.autodesk.crm.objectrepository.leads.LeadsPage;
+import com.autodesk.crm.objectrepository.organizations.OrganizationPage;
 
 /**
  * 
@@ -83,8 +84,10 @@ public class HomePage{
 	/**
 	 * Navigate to Organizations
 	 */
-	public void navigateToOrganizations(){ 
+	public OrganizationPage navigateToOrganizations(){ 
 		organizationsTab.click();
+		common.waitForPageToLoad();
+		return new OrganizationPage(driver);
 	}
 
 	/**
@@ -187,5 +190,9 @@ public class HomePage{
 	public void CRM_Settings(){
 		act.moveToElement(settingsImg);
 		crmSettingsTab.click();
+	}
+	
+	public void getOrganizationsTab() throws Throwable {
+		common.waitAndClick(organizationsTab);
 	}
 }
