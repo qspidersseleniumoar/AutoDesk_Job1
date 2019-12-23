@@ -24,7 +24,7 @@ public class CancelThePopupDuringDeletionInHeaderTest extends BaseClass{
 		CreatingNewOrganizationPage createOrgPage = orgPage.navigateToCreatingNewOrganization();
 		
 		/* Creating new Organization */
-		createOrgPage.createOrgWithName("Sheet1", 16, 3);
+		createOrgPage.createOrgWithName("TYC111973", 16, 3);
 		
 		/* Navigating back to Organizations */
 		homePage.getOrganizationsTab();
@@ -32,7 +32,7 @@ public class CancelThePopupDuringDeletionInHeaderTest extends BaseClass{
 		String actAlertMsg = orgPage.cancelDelOneOrgFrmHeader();
 		
 		/* Get the expected Alert Message from Excel */
-		String expAlertMsg = orgPage.getExcelData("Sheet1", 16, 4);
+		String expAlertMsg = orgPage.getExcelData("TYC111973", 16, 4);
 		
 		Assert.assertEquals(actAlertMsg, expAlertMsg);
 		

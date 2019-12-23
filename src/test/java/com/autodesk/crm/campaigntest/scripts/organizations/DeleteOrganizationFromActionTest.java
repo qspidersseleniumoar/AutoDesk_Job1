@@ -24,7 +24,7 @@ public class DeleteOrganizationFromActionTest extends BaseClass{
 		CreatingNewOrganizationPage createOrgPage = orgPage.navigateToCreatingNewOrganization();
 		
 		/* Creating new Organization */
-		createOrgPage.createOrgWithName("Sheet1", 7, 3);
+		createOrgPage.createOrgWithName("TYC111973", 7, 3);
 		
 		/* Navigating back to Organizations */
 		homePage.getOrganizationsTab();
@@ -33,7 +33,7 @@ public class DeleteOrganizationFromActionTest extends BaseClass{
 		String actAlertMsg = orgPage.cancelDeleteOne();
 		
 		/* Get the expected Alert Message from Excel */
-		String expAlertMsg = orgPage.getExcelData("Sheet1", 7, 4);
+		String expAlertMsg = orgPage.getExcelData("TYC111973", 7, 4);
 		
 		/* Validate */
 		Assert.assertEquals(actAlertMsg, expAlertMsg);

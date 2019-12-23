@@ -25,7 +25,7 @@ public class CancelThePopupDuringMultipleDeletionInHeaderTest extends BaseClass{
 		CreatingNewOrganizationPage createOrgPage = orgPage.navigateToCreatingNewOrganization();
 		
 		/* Creating new Organization */
-		createOrgPage.createOrgWithName("Sheet1", 10, 3);
+		createOrgPage.createOrgWithName("TYC111973", 10, 3);
 		
 		/* Navigating back to Organizations */
 		homePage.getOrganizationsTab();
@@ -35,7 +35,7 @@ public class CancelThePopupDuringMultipleDeletionInHeaderTest extends BaseClass{
 		
 		//System.out.println(actAlertMsg);
 		/* Get the expected Alert Message from Excel */
-		String expAlertMsg = orgPage.getExcelData("Sheet1", 10, 4);
+		String expAlertMsg = orgPage.getExcelData("TYC111973", 10, 4);
 		
 		/* Validate */
 		Assert.assertTrue(actAlertMsg.contains(expAlertMsg));

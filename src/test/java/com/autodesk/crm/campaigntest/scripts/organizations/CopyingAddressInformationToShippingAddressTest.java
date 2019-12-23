@@ -24,7 +24,7 @@ public class CopyingAddressInformationToShippingAddressTest extends BaseClass{
 		/* Navigate to Creating new Organization Page */
 		CreatingNewOrganizationPage createOrgPage = orgPage.navigateToCreatingNewOrganization();
 		
-		String expAdress = createOrgPage.copyShipAdToBillAd("Sheet1", 25, 3);
+		String expAdress = createOrgPage.copyShipAdToBillAd("TYC111973", 25, 3);
 		
 		String actAdress = createOrgPage.billAdreesInfo();
 		

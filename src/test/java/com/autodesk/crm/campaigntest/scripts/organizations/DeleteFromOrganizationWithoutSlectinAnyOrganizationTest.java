@@ -23,7 +23,7 @@ public class DeleteFromOrganizationWithoutSlectinAnyOrganizationTest extends Bas
 		String actAlertMsg = orgPage.deleteHead();
 		
 		/* Get the expected Alert Message from Excel */
-		String expAlertMsg = orgPage.getExcelData("Sheet1", 1, 3);
+		String expAlertMsg = orgPage.getExcelData("TYC111973", 1, 3);
 		
 		/* Validate */
 		Assert.assertEquals(actAlertMsg, expAlertMsg);

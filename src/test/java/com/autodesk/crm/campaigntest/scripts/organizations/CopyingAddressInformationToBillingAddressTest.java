@@ -23,7 +23,7 @@ public class CopyingAddressInformationToBillingAddressTest extends BaseClass{
 		/* Navigate to Creating new Organization Page */
 		CreatingNewOrganizationPage createOrgPage = orgPage.navigateToCreatingNewOrganization();
 		
-		String expAdress = createOrgPage.copyBillAdToShipAd("Sheet1", 22, 3);
+		String expAdress = createOrgPage.copyBillAdToShipAd("TYC111973", 22, 3);
 		
 		String actAdress = createOrgPage.shipAdreesInfo();
 		
