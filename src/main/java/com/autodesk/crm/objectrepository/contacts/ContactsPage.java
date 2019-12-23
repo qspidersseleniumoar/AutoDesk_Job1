@@ -51,7 +51,7 @@ public class ContactsPage implements IFilePaths {
 		firstnameTB.sendKeys(ExcelLib.getData(1, 0));
 		lastNameTB.sendKeys(ExcelLib.getData(1, 1));
 		commonlib.selectOption(leadDropdown, 2);
-		title.sendKeys(ExcelLib.getData(1, 3));
+		title.sendKeys(ExcelLib.getData(1, 2));
 		saveButton.click();
 		// return new ContactAdministratorPage(driver);
 
@@ -76,5 +76,6 @@ public class ContactsPage implements IFilePaths {
 		firstnameTB.sendKeys(ExcelLib.getData(4, 0));
 		saveButton.click();
 	}
-
 }
+
+	
