@@ -1,11 +1,7 @@
 package com.autodesk.crm.objectrepository.organizations;
 
-import static com.autodesk.crm.commonlib.ExcelLib.closeBook;
 import static com.autodesk.crm.commonlib.ExcelLib.getData;
-import static com.autodesk.crm.commonlib.ExcelLib.openSheet;
-import static com.autodesk.crm.commonlib.ExcelLib.setData;
 
-import org.openqa.selenium.Alert;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.FindBy;
@@ -50,6 +46,10 @@ public class CreatingNewOrganizationPage implements IFilePaths {
 	@FindBy(xpath = "//input[@name='accountname']") private WebElement orgNameEdt;
 	@FindBy(xpath="//span[@class='dvHeaderText']") private WebElement successtxt1;
 	@FindBy(xpath="//span[@class='small']") private WebElement successtxt2;
+	@FindBy(name = "bill_street") private WebElement billAddEdtBx;
+	@FindBy(xpath = "//input[@onclick='return copyAddressRight(EditView)']") private WebElement copyBillAddBtn;
+	@FindBy(name = "ship_street") private WebElement shipAddEdtBx;
+	@FindBy(xpath = "//input[@onclick='return copyAddressLeft(EditView)']") private WebElement shipBillAddBtn;
 	
 	public WebElement getOrgNameEdt() {
 		return orgNameEdt;
@@ -64,15 +64,22 @@ public class CreatingNewOrganizationPage implements IFilePaths {
 	}
 	
 	
-	public void createOrgWithName(String sheetName, int rowNum, int colNum) throws Throwable { 
-		openSheet(ORG, sheetName); 
-		this.orgname = getData(rowNum, colNum);
-		Thread.sleep(3000);
-		
-		//System.out.println(data);
-		
-		closeBook();
+	/**
+	 * @author adikiprakash
+	 * Used to create one organization with name
+	 * @param sheetName
+	 * @param rowNum
+	 * @param celNum
+	 * @throws Throwable
+	 */
+	public void createOrgWithName(String sheetName, int rowNum, int celNum) throws Throwable {
+		ExcelLib.openSheet(ORG, sheetName);
+		String data = ExcelLib.getData(rowNum, celNum);
+		orgNameEdt.sendKeys(data);
+		saveBtn.click();
+		ExcelLib.closeBook();
 	}
+	
 	
 	public void enterorg()
 	{  
@@ -129,6 +136,66 @@ public class CreatingNewOrganizationPage implements IFilePaths {
 		
 	}
 	
+	/**
+	 * @author adikiprakash
+	 * Enter data in Billing address edit box and click on Copy Billing Address
+	 * @param sheetName
+	 * @param rowNum
+	 * @param colNum
+	 * @return String which supposed to enter in Billing address edit box
+	 * @throws Throwable
+	 */
+	public String copyBillAdToShipAd(String sheetName, int rowNum, int colNum) throws Throwable {
+		ExcelLib.openSheet(ORG, sheetName);
+		String data = ExcelLib.getData(rowNum, colNum);
+		ExcelLib.closeBook();
+		billAddEdtBx.sendKeys(data);
+		copyBillAddBtn.click();
+		return data;
+	}
+	
+	/**
+	 * @author adikiprakash
+	 * Fetch the value in Shipping address edit box
+	 * @return
+	 */
+	public String shipAdreesInfo() {
+		String attributeValue = shipAddEdtBx.getAttribute("value");
+		return attributeValue;
+		
+	}
+	
+	
+	/**
+	 * @author adikiprakash
+	 * Enter data in Shipping address edit box and click on Copy Shipping Address
+	 * @param sheetName
+	 * @param rowNum
+	 * @param colNum
+	 * @return String which supposed to enter in Shipping address edit box
+	 * @throws Throwable
+	 */
+	public String copyShipAdToBillAd(String sheetName, int rowNum, int colNum) throws Throwable {
+		ExcelLib.openSheet(ORG, sheetName);
+		String data = ExcelLib.getData(rowNum, colNum);
+		ExcelLib.closeBook();
+		shipAddEdtBx.sendKeys(data);
+		shipBillAddBtn.click();
+		return data;
+	}
+	
+	
+	/**
+	 * @author adikiprakash
+	 * Fetch the value in Billing address edit box
+	 * @return
+	 */
+	public String billAdreesInfo() {
+		String attributeValue = billAddEdtBx.getAttribute("value");
+		return attributeValue;
+		
+	}
+	
 	
 	public void Invalidorgmsg() throws Throwable
 	{
@@ -137,5 +204,5 @@ public class CreatingNewOrganizationPage implements IFilePaths {
 			
 		
 	}
-	}
+}
 
