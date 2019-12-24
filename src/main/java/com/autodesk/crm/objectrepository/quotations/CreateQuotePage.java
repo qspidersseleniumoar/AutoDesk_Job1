@@ -1,25 +1,30 @@
 package com.autodesk.crm.objectrepository.quotations;
 
-import static org.testng.Assert.assertEquals;
+import static com.autodesk.crm.commonlib.ExcelLib.closeBook;
+import static com.autodesk.crm.commonlib.ExcelLib.getData;
+import static com.autodesk.crm.commonlib.ExcelLib.openSheet;
 
-import org.openqa.selenium.By;
-import org.openqa.selenium.JavascriptExecutor;
+import java.awt.Window;
+
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
+import org.openqa.selenium.interactions.Actions;
 import org.openqa.selenium.support.FindBy;
 import org.openqa.selenium.support.PageFactory;
-import org.testng.Assert;
+import org.testng.Reporter;
+import org.testng.annotations.Test;
 
 import com.autodesk.crm.commonlib.BaseClass;
 import com.autodesk.crm.commonlib.CommonLibrary;
-import static com.autodesk.crm.commonlib.ExcelLib.*;
+import com.autodesk.crm.commonlib.IAutoConstants;
+import com.autodesk.crm.commonlib.IFilePaths;
 
 /**
  * 
  * @author Rohan
  *
  */
-public class CreateQuotePage extends BaseClass {
+public class CreateQuotePage implements IFilePaths {
 	private WebDriver driver;
 	private CommonLibrary commonLib;
 
@@ -28,7 +33,7 @@ public class CreateQuotePage extends BaseClass {
 	@FindBy(name = "subject")
 	private WebElement subTB;
 	@FindBy(xpath = "(//img[@title='Select'])[3]")
-	private WebElement orgLookIcon;
+	private WebElement orgPlus;
 	@FindBy(linkText = "HP")
 	private WebElement orgName;
 	@FindBy(name = "carrier")
@@ -37,7 +42,7 @@ public class CreateQuotePage extends BaseClass {
 	private WebElement billingAdd;
 	@FindBy(name = "ship_street")
 	private WebElement shipAdd;
-	@FindBy(id = "searchIcon1")
+	@FindBy(xpath = "//img[@id='searchIcon1']")
 	private WebElement prodLookIcon;
 	@FindBy(linkText = "Laptop")
 	private WebElement prodName;
@@ -50,10 +55,10 @@ public class CreateQuotePage extends BaseClass {
 	@FindBy(linkText = "Go to Advanced Search")
 	private WebElement gotoAdvanceSearchLink;
 	@FindBy(xpath = "(//tr[3]//td[4]//img[1])")
+	private WebElement plusOpp;
 	/**
 	 * @author Vinita
 	 */
-	private WebElement plusOpp;
 	@FindBy(xpath = "(//td[5]//table[1]//tbody[1]//tr[1]//td[1]//img[1] )")
 	private WebElement listpriceIcon;
 	@FindBy(xpath = ("//body/table/tbody/tr/td/form/div/table/tbody/tr/td/table/tbody/tr/td/table/tbody/tr/td/table/tbody/"
@@ -118,39 +123,9 @@ public class CreateQuotePage extends BaseClass {
 	private WebElement oppoName;
 
 	/**
-	 * @author pradeep
+	 * Initiate the Quotation page
+	 * @author Vinita
 	 */
-
-	@FindBy(xpath = "//td[@id='mouseArea_Organization Name']/a")
-	private WebElement OrgName;
-	@FindBy(xpath = "//img[@id='searchIcon1']")
-	private WebElement products;
-	@FindBy(id = "dtlview_Subject")
-	private WebElement quoteSubject;
-	@FindBy(xpath = "//span[@id='dtlview_Quote Stage']/font")
-	private WebElement quoteStage;
-
-	public void selectORG(String companyName) {
-		driver.findElement(By.xpath("//a[text()='" + companyName + "']")).click();
-	}
-
-	public void selectProduct(String productName) {
-		driver.findElement(By.xpath("//a[text()='" + productName + "']")).click();
-	}
-
-	public void selectContact(String Contact) {
-		driver.findElement(By.xpath("//a[text()='" + Contact + "']")).click();
-	}
-
-	/**
-	 * @author Pradeep Sharma method is use for scolling in this method we need to
-	 *         provide element
-	 */
-	public void scrollIntoView(WebElement ele) {
-		JavascriptExecutor je = (JavascriptExecutor) driver;
-		je.executeScript("arguments[0].scrollIntoView(true)", ele);
-	}
-
 	public CreateQuotePage(WebDriver driver) {
 		PageFactory.initElements(driver, this);
 		this.driver = driver;
@@ -158,153 +133,104 @@ public class CreateQuotePage extends BaseClass {
 	}
 
 	/**
-	 * 
-	 * @author Pradeep Sharma
+	 * Create a Quotation using the plus button by reading data from an excel sheet 
+	 * @author Vinita
 	 */
-	public void CreateQuoteWithStageAccepted() throws Throwable {
-		plusBtn.click();
-
-		openSheet(QTN, "Sheet1");
-		// openSheet(filePath, sheetName)
-		String wh = driver.getWindowHandle();
-		subTB.sendKeys(getData(1, 1));
-		commonLib.selectOption(quoteStageDD, getData(1, 3));
-		orgLookIcon.click();
-		commonLib.switchToChildWindow();
-		selectORG(getData(1, 2));
-		commonLib.acceptAlert();
-		driver.switchTo().window(wh);
-		products.click();
-		commonLib.switchToChildWindow();
-		selectProduct(getData(1, 4));
-		driver.switchTo().window(wh);
-		qtyTB.sendKeys(getData(1, 5));
-		saveBtn.click();
-		closeBook();
-	}
-
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void verifyCreateQuoteWithStageAccepted() throws Throwable {
-		String actual = quoteSubject.getText();
-		String expected = getData(1, 1);
-		String actual1 = quoteStage.getText();
-		String expected1 = getData(1, 3);
-		Assert.assertEquals(actual, expected);
-		Assert.assertEquals(actual1, expected1);
-		closeBook();
-
-	}
-
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void CreateQuoteWithStageRejected() throws Throwable {
-		plusBtn.click();
-
-		openSheet(QTN, "Sheet1");
-		String wh = driver.getWindowHandle();
-		subTB.sendKeys(getData(2, 1));
-		commonLib.selectOption(quoteStageDD, getData(2, 3));
-		// commonLib.selectOption(quoteStageDD, 5);
-		orgLookIcon.click();
-		commonLib.switchToChildWindow();
-		selectORG(getData(2, 2));
-		commonLib.acceptAlert();
-		driver.switchTo().window(wh);
-		products.click();
-		commonLib.switchToChildWindow();
-		selectProduct(getData(2, 4));
-		driver.switchTo().window(wh);
-		qtyTB.sendKeys(getData(2, 5));
-		saveBtn.click();
-		closeBook();
-	}
-
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void verifyCreateQuoteWithStageRejected() throws Throwable {
-		String actual = quoteSubject.getText();
-		String expected = getData(2, 1);
-		String actual1 = quoteStage.getText();
-		String expected1 = getData(2, 3);
-		Assert.assertEquals(actual, expected);
-		Assert.assertEquals(actual1, expected1);
-		closeBook();
-
-	}
-
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void CreateQuoteWithContact() throws Throwable {
-		plusBtn.click();
-
-		openSheet(QTN, "Sheet1");
-		String wh = driver.getWindowHandle();
-		subTB.sendKeys(getData(3, 1));
-		orgLookIcon.click();
-		commonLib.switchToChildWindow();
-		selectORG(getData(3, 2));
-		commonLib.acceptAlert();
-		driver.switchTo().window(wh);
-		contactNameLookIcon.click();
-		commonLib.switchToChildWindow();
-		selectContact(getData(3, 3));
-		commonLib.acceptAlert();
-		driver.switchTo().window(wh);
-		qtyTB.sendKeys(getData(3, 5));
-		products.click();
-		commonLib.switchToChildWindow();
-		selectProduct(getData(3, 4));
-		// commonLib.acceptAlert();
-		// driver.switchTo().window(wh);
-		saveBtn.click();
-		closeBook();
-
-	}
-
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void CreateQuoteWithOrganisation() throws Throwable {
+	public void createQuoteWithOpportunity() throws Throwable {
+		
+		String handel = driver.getWindowHandle();
 		plusBtn.click();
 		openSheet(QTN, "Sheet1");
-		String wh = driver.getWindowHandle();
-		subTB.sendKeys(getData(4, 1));
-		orgLookIcon.click();
-		commonLib.switchToChildWindow();
-		selectORG(getData(4, 2));
-		commonLib.acceptAlert();
-		driver.switchTo().window(wh);
-		products.click();
-		commonLib.switchToChildWindow();
-		selectProduct(getData(4, 3));
-		driver.switchTo().window(wh);
-		qtyTB.sendKeys(getData(4, 4));
-		saveBtn.click();
+		subTB.sendKeys(getData(1, 0));
+		billingAdd.sendKeys(getData(1, 9));
+		shipAdd.sendKeys(getData(1, 15));
+		//shipStateTB.sendKeys(getData(1, 0));
+		qtyTB.sendKeys(getData(1, 22));
 		closeBook();
-	}
+		commonLib.selectOption(quoteStageDD, 0);
+	
+     	plusOpp.click();
+     	commonLib.switchToChildWindow();
+		oppoName.click();
+	    driver.switchTo().window(handel);
+	   
+		prodLookIcon.click();
+		commonLib.switchToChildWindow();
+		prodName.click();
+		driver.switchTo().window(handel);
+		saveBtn.click();
+		
+	 }
+public void createQuoteWithStageCreated() throws Throwable {
+		
+		String handel = driver.getWindowHandle();
+		plusBtn.click();
+		openSheet(QTN, "Sheet1");
+		subTB.sendKeys(getData(2, 0));
+		billingAdd.sendKeys(getData(1, 9));
+		shipAdd.sendKeys(getData(1, 15));
+		//shipStateTB.sendKeys(getData(1, 0));
+		qtyTB.sendKeys(getData(1, 22));
+		closeBook();
+		commonLib.selectOption(quoteStageDD, 0);
+	
+     	plusOpp.click();
+     	commonLib.switchToChildWindow();
+		oppoName.click();
+	    driver.switchTo().window(handel);
+	   
+		prodLookIcon.click();
+		commonLib.switchToChildWindow();
+		prodName.click();
+		driver.switchTo().window(handel);
+		saveBtn.click();
+	 }
 
-	/**
-	 * 
-	 * @author Pradeep Sharma
-	 */
-	public void verifyCreateQuoteWithOrganisation() throws Throwable {
-		String actual = OrgName.getText();
-		String expected = getData(4, 2);
-		Assert.assertEquals(actual, expected);
-		String actual1 = quoteSubject.getText();
-		String expected1 = getData(4, 1);
-		Assert.assertEquals(actual1, expected1);
+public void createQuoteWithStageDelivered() throws Throwable {
+	
+	String handel = driver.getWindowHandle();
+	plusBtn.click();
+	openSheet(QTN, "Sheet1");
+	subTB.sendKeys(getData(3, 0));
+	billingAdd.sendKeys(getData(1, 9));
+	shipAdd.sendKeys(getData(1, 15));
+	qtyTB.sendKeys(getData(1, 22));
+	closeBook();
+	commonLib.selectOption(quoteStageDD, 1);
+	plusOpp.click();
+ 	commonLib.switchToChildWindow();
+	oppoName.click();
+    driver.switchTo().window(handel);
+   
+	prodLookIcon.click();
+	commonLib.switchToChildWindow();
+	prodName.click();
+	driver.switchTo().window(handel);
+	saveBtn.click();
+ }
 
-	}
 
+public void createQuoteWithStageReviewed() throws Throwable {
+	
+	String handel = driver.getWindowHandle();
+	plusBtn.click();
+	openSheet(QTN, "Sheet1");
+	subTB.sendKeys(getData(4, 0));
+	billingAdd.sendKeys(getData(1, 9));
+	shipAdd.sendKeys(getData(1, 15));
+	qtyTB.sendKeys(getData(1, 22));
+	closeBook();
+	commonLib.selectOption(quoteStageDD, 2);
+
+ 	plusOpp.click();
+ 	commonLib.switchToChildWindow();
+	oppoName.click();
+    driver.switchTo().window(handel);
+   
+	prodLookIcon.click();
+	commonLib.switchToChildWindow();
+	prodName.click();
+	driver.switchTo().window(handel);
+	saveBtn.click();
+ }
 }
