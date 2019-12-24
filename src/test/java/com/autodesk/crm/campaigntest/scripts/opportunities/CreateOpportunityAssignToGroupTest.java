@@ -6,7 +6,6 @@ import com.autodesk.crm.commonlib.BaseClass;
 import com.autodesk.crm.objectrepository.opportunities.OpportunitiesPage;
 public class CreateOpportunityAssignToGroupTest extends BaseClass {
 	/**
-	 * 
 	 * @author Tess
 	 * createOpportunityAssignToGroup
 	 * @throws Throwable
