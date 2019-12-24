@@ -1,5 +1,6 @@
 package com.autodesk.crm.objectrepository.contacts;
 
+import java.util.Iterator;
 import java.util.List;
 
 import org.openqa.selenium.By;
@@ -67,6 +68,34 @@ public class ContactsPage implements IFilePaths{
 	private WebElement ContactsPage;
 	@FindBy(xpath="//span[@class='genHeaderSmall']")
 	private WebElement NoContacts;
+	@FindBy(xpath="//img[@title='Find Duplicates']")
+	private WebElement duplicateImg;
+	@FindBy(xpath="//table[@class='searchUIBasic small']/tbody/tr[4]/td[1]/*")
+	private WebElement dupSearchAvailFeilds;
+	@FindBy(xpath="//input[@class='crmButton small'][1]")
+	private WebElement moveSelectedFieldBtn;
+	@FindBy(name="save&merge")
+	private WebElement findDuplicatesBtn;
+	@FindBy(xpath="//table[@class='lvt small']/tbody/tr[*]/td[1]/*")
+	private List<WebElement> duplicateCheckBxs;
+	@FindBy(xpath="//input[@class='crmbutton small delete']")
+	private WebElement duplicateDeleteBtn;
+	@FindBy(xpath="(//table[@class='lvt small']/tbody/tr[*]/td[5]/*)[1]")
+	private WebElement dupliMergeChkBx;
+	@FindBy(xpath="(//table[@class='lvt small']/tbody/tr[*]/td[6]/*)[1]")
+	private WebElement dupliMergeBtn;
+	@FindBy(xpath="//table[@class='tableHeading']/tbody/tr[1]/td/*")
+	private WebElement DupliContactPgHeader;
+	@FindBy (id="email")
+	private WebElement emailEdtBx;
+	@FindBy (id="title")
+	private WebElement titleEdtBx;
+	@FindBy (id="phone")
+	private WebElement phnNoEdtBx;
+	@FindBy (xpath="//table[@class='lvt small']/tbody/tr[*]/td[3]")
+	private List<WebElement> lastNameClmn;
+	@FindBy (xpath="//table[@class='lvt small']/tbody/tr[*]/td[5]")
+	private List<WebElement> mergeChkBxClmn;
 	
 
 	public ContactsPage(WebDriver driver) {
@@ -97,7 +126,7 @@ public class ContactsPage implements IFilePaths{
 		createContactPlusBtn.click();
 		commonlib.waitForPageToLoad();
 		ExcelLib.openSheet(CNT,"Sheet1");
-		lastNameTB.sendKeys(ExcelLib.getData(3,1));
+		lastNameTB.sendKeys(ExcelLib.getData(1,3));
 		saveButton.click();
 	}
 
@@ -224,5 +253,167 @@ public class ContactsPage implements IFilePaths{
 
 	}
 	
+	/**
+	 * @author Ramakanth
+	 * @param SheetName
+	 * @param rowNum
+	 * @param ColumnNum
+	 * @throws Throwable
+	 * used to create contact using only lastname
+	 */
+	public void createOnlyLastname(String SheetName,int rowNum, int ColumnNum) throws Throwable {
+		createContactPlusBtn.click();
+		commonlib.waitForPageToLoad();
+		ExcelLib.openSheet(CNT,SheetName);
+		lastNameTB.sendKeys(ExcelLib.getData(rowNum,ColumnNum));
+		saveButton.click();		
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @param SheetName
+	 * @param rowNum
+	 * @param ColumnNum
+	 * @param emailCelNum
+	 * @throws Throwable
+	 * used to create a contact using last name and email 
+	 */
+	public void createLastname_email(String SheetName,int rowNum, int ColumnNum, int emailCelNum) throws Throwable {
+		createContactPlusBtn.click();
+		commonlib.waitForPageToLoad();
+		ExcelLib.openSheet(CNT,SheetName);
+		lastNameTB.sendKeys(ExcelLib.getData(rowNum,ColumnNum));
+		emailEdtBx.sendKeys(ExcelLib.getData(rowNum, emailCelNum));
+		saveButton.click();		
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @param SheetName
+	 * @param rowNum
+	 * @param ColumnNum
+	 * @param PhnCelNum
+	 * @throws Throwable
+	 * used to create a contact using last name and phone number
+	 */
+	public void createLastname_PhnNo(String SheetName,int rowNum, int ColumnNum, int PhnCelNum) throws Throwable {
+		createContactPlusBtn.click();
+		commonlib.waitForPageToLoad();
+		ExcelLib.openSheet(CNT,SheetName);
+		lastNameTB.sendKeys(ExcelLib.getData(rowNum,ColumnNum));
+		emailEdtBx.sendKeys(ExcelLib.getData(rowNum, PhnCelNum));
+		saveButton.click();		
+	}
+	
+	
+	/**
+	 * @author Ramakanth
+	 * @throws Throwable 
+	 * used to click on contacts tab
+	 */
+	public void navigateToContacts() throws Throwable{
+		commonlib.waitAndClick(contactsTab);
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @param criteria
+	 * used to click on duplicates image and search for duplicates using search criteria
+	 */
+	public void findDuplicates(String criteria) {
+		duplicateImg.click();
+		commonlib.waitForPageToLoad();
+		CommonLibrary clib=new CommonLibrary(driver);
+		clib.selectOption(dupSearchAvailFeilds, criteria);
+		moveSelectedFieldBtn.click();
+		findDuplicatesBtn.click();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * used to click on the check box of duplicated contacts
+	 */
+	public void selectDupliChkBx() {
+		int size = duplicateCheckBxs.size();
+		//System.out.println(size);
+		Iterator<WebElement> it = duplicateCheckBxs.iterator();
+		
+			it.next().click();
+			it.next().click();	
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @return alert message
+	 * used to click on delete button and click on ok
+	 */
+	public String deleteDulicate() {
+		duplicateDeleteBtn.click();
+		return commonlib.acceptAlert();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @return alert message 
+	 * used to click on delete button and click on cancel
+	 */
+	public String deleteDulicateCancel() {
+		duplicateDeleteBtn.click();
+		return commonlib.dismissAlert();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @param alrtMsg
+	 * @return int
+	 * used to fetch number present in the string
+	 */
+	public String delDupCount(String alrtMsg) {
+		String[] s1=alrtMsg.split(" ");
+		return s1[9];	
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * click on merge button
+	 */
+	public void selectDuplicateMergeChkBx() {
+		dupliMergeChkBx.click();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @return alrtMsg
+	 * used click on merge button and click on ok
+	 */
+	public String clickDupliMergeBtn() {
+		dupliMergeBtn.click();
+		return commonlib.acceptAlert();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @return String
+	 * used to get the header of the duplicate contact page
+	 */
+	public String duplicateContactPage() {
+		return DupliContactPgHeader.getText();
+	}
+	
+	/**
+	 * @author Ramakanth
+	 * @param sheetName
+	 * @param rowNum
+	 * @param colNum
+	 * @return String
+	 * @throws Throwable
+	 * used to open the workbook, Sheet and fetch data from excel sheet 
+	 */
+	public String getData(String sheetName, int rowNum, int colNum) throws Throwable {
+		ExcelLib.openSheet(CNT, sheetName);
+		String data=ExcelLib.getData(rowNum, colNum);
+	    ExcelLib.closeBook();
+	    return data;
+	}
 	
 }
